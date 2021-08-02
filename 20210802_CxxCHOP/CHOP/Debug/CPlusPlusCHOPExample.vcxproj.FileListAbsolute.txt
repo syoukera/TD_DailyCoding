@@ -1,0 +1,2 @@
+C:\Users\sakir\Creative Cloud Files\TouchDesigner\DailyCoding_TouchDesigner_git\20210802_CxxCHOP\CHOP\Debug\CPlusPlusCHOPExample.dll
+C:\Users\sakir\Creative Cloud Files\TouchDesigner\DailyCoding_TouchDesigner_git\20210802_CxxCHOP\CHOP\Debug\CPlusPlusCHOPExample.pdb
