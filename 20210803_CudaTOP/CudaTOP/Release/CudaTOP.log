@@ -1,0 +1,13 @@
+﻿  glew.c
+  glewinfo.c
+C:\Users\sakir\Creative Cloud Files\TouchDesigner\DailyCoding_TouchDesigner_git\20210803_CudaTOP\CudaTOP\GL\glewinfo.c(13652,28): warning C4133: '=': 'char [5]' と 'LPCWSTR' の間で型に互換性がありません。
+C:\Users\sakir\Creative Cloud Files\TouchDesigner\DailyCoding_TouchDesigner_git\20210803_CudaTOP\CudaTOP\GL\glewinfo.c(13656,1): warning C4133: '関数': 'char [5]' と 'LPCWSTR' の間で型に互換性がありません。
+C:\Users\sakir\Creative Cloud Files\TouchDesigner\DailyCoding_TouchDesigner_git\20210803_CudaTOP\CudaTOP\GL\glewinfo.c(13724,25): warning C4133: '関数': 'char [5]' と 'LPCWSTR' の間で型に互換性がありません。
+  CudaTOP.cpp
+     ライブラリ C:\Users\sakir\Creative Cloud Files\TouchDesigner\DailyCoding_TouchDesigner_git\20210803_CudaTOP\CudaTOP\Release\CudaTOP.lib とオブジェクト C:\Users\sakir\Creative Cloud Files\TouchDesigner\DailyCoding_TouchDesigner_git\20210803_CudaTOP\CudaTOP\Release\CudaTOP.exp を作成中
+  コード生成しています。
+  51 of 53 functions (96.2%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  コード生成が終了しました。
+  CudaTOP.vcxproj -> C:\Users\sakir\Creative Cloud Files\TouchDesigner\DailyCoding_TouchDesigner_git\20210803_CudaTOP\CudaTOP\Release\CudaTOP.dll

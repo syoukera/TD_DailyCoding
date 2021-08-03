@@ -1,0 +1,20 @@
+{
+    // IntelliSense を使用して利用可能な属性を学べます。
+    // 既存の属性の説明をホバーして表示します。
+    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug with TD",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "C:\\Program Files\\Derivative\\TouchDesigner\\bin\\TouchDesigner.exe",
+            "args": ["C:\\Users\\sakir\\Creative Cloud Files\\TouchDesigner\\DailyCoding_TouchDesigner_git\\20210803_CudaTOP\\20210803_CudaTOP.toe"],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "console": "externalTerminal",
+            "preLaunchTask": "build"
+        }
+    ]
+}

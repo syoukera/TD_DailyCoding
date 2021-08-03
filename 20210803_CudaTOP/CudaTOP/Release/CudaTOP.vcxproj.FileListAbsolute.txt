@@ -1,0 +1,2 @@
+C:\Program Files\Derivative\TouchDesigner\Samples\CPlusPlus\CudaTOP\Release\CudaTOP.dll
+C:\Users\sakir\Creative Cloud Files\TouchDesigner\DailyCoding_TouchDesigner_git\20210803_CudaTOP\CudaTOP\Release\CudaTOP.dll

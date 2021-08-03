@@ -1,0 +1,4 @@
+C:\Program Files\Derivative\TouchDesigner\Samples\CPlusPlus\CudaTOP\Debug\CudaTOP.dll
+C:\Program Files\Derivative\TouchDesigner\Samples\CPlusPlus\CudaTOP\Debug\CudaTOP.pdb
+C:\Users\sakir\Creative Cloud Files\TouchDesigner\DailyCoding_TouchDesigner_git\20210803_CudaTOP\CudaTOP\Debug\CudaTOP.dll
+C:\Users\sakir\Creative Cloud Files\TouchDesigner\DailyCoding_TouchDesigner_git\20210803_CudaTOP\CudaTOP\Debug\CudaTOP.pdb
