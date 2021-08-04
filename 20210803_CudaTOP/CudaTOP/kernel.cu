@@ -26,8 +26,19 @@ copyTextureRGBA8(int width, int height, cudaSurfaceObject_t input, cudaSurfaceOb
 	if (x >= width || y >= height)
 		return;
 
+	uchar4 color_center;
+	surf2Dread(&color_center, input, x * 4, y, cudaBoundaryModeZero);
+	uchar4 color_right;
+	surf2Dread(&color_right, input, (x+1) * 4, y, cudaBoundaryModeZero);
+	uchar4 color_left;
+	surf2Dread(&color_left, input, (x-1) * 4, y, cudaBoundaryModeZero);
+	
 	uchar4 color;
-	surf2Dread(&color, input, x * 4, y, cudaBoundaryModeZero);
+	color.x = (color_center.x + color_right.x + color_left.x)/3;
+	color.y = (color_center.y + color_right.y + color_left.y)/3;
+	color.z = (color_center.z + color_right.z + color_left.z)/3;
+	color.w = (color_center.w + color_right.w + color_left.w)/3;
+
 	surf2Dwrite(color, output, x * 4, y, cudaBoundaryModeZero);
 }
 
