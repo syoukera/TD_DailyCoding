@@ -1,0 +1,9 @@
+.vscode
+.vs
+Debug
+CPlusPlusDATExample.xcodeproj
+
+# CPlusPlusDATExample.sln
+# CPlusPlusDATExample.vcxproj
+CPlusPlusDATExample.vcxproj.user
+Info.plist
