@@ -100,24 +100,30 @@ CPlusPlusDATExample::getGeneralInfo(DAT_GeneralInfo* ginfo, const OP_Inputs* inp
 }
 
 void
-CPlusPlusDATExample::makeTable(DAT_Output* output, int numRows, int numCols)
+CPlusPlusDATExample::makeTable(DAT_Output* output, int numVoids, int numVals)
 {
 	output->setOutputDataType(DAT_OutDataType::Table);
-	output->setTableSize(numRows, numCols);
+	output->setTableSize(numVoids+1, numVals);
 
-	std::array<const char*, 5> data = { "this", "is", "some", "test", "data"};
+	std::array<const char*, 6> columns = { "tx", "ty", "tz", "vx", "vy", "vz"};
 
-	for (int i = 0; i < numRows; i++)
 	{
-		for (int j = 0; j < numCols; j++)
+		int i = 0;
+		for (int j = 0; j < numVals; ++j)
 		{
-			int j2 = j;
+			output->setCellString(i, j, columns[j]);
+		}
+	}
 
-			// If we are asked to make more columns than we have data for
-			if (j2 >= data.size())
-				j2 = j2 % data.size();
-
-			output->setCellString(i, j, data[j2]);
+	for (int i = 0; i < numVoids; i++)
+	{
+		int i2 = i + 1;
+		for (int j = 0; j < numVals; j++)
+		{
+			if (j < 3)
+				output->setCellDouble(i2, j, x[i][j]);
+			else
+				output->setCellDouble(i2, j, v[i][j]);
 		}
 	}
 }
@@ -135,21 +141,19 @@ CPlusPlusDATExample::initializeVoids(int numVoids)
     std::mt19937 mt{ std::random_device{}() };
     std::uniform_real_distribution<double> dist(0.0, 1.0);
 
-	for (int i = 0; i!=numVoids; ++i)
+	for (int i = 0; i != numVoids; ++i)
 	{
 		x[i][0] = dist(mt)*2.0 - 1.0;
 		x[i][1] = dist(mt)*2.0 - 1.0;
 		x[i][2] = dist(mt)*2.0 - 1.0;
 	}
 
-	for (int i = 0; i!=numVoids; ++i)
+	for (int i = 0; i != numVoids; ++i)
 	{
 		v[i][0] = (dist(mt)*2.0 - 1.0)*minVelocity;
 		v[i][1] = (dist(mt)*2.0 - 1.0)*minVelocity;
 		v[i][2] = (dist(mt)*2.0 - 1.0)*minVelocity;
 	}
-
-	int dummy = 0;
 }
 
 void
@@ -211,20 +215,22 @@ CPlusPlusDATExample::execute(DAT_Output* output,
 			this->initializeVoids(numVoids);
 		}
 
-		switch (outputDataType)
-		{
-			case 0:		// Table
-				makeTable(output, numRows, numCols);
-				break;
+		makeTable(output, numRows=numVoids, numCols=6);
 
-			case 1:		// Text
-				makeText(output);
-				break;
+		// switch (outputDataType)
+		// {
+		// 	case 0:		// Table
+		// 		makeTable(output, numRows, numCols);
+		// 		break;
 
-			default: // table
-				makeTable(output, numRows, numCols);
-				break;
-		}
+		// 	case 1:		// Text
+		// 		makeText(output);
+		// 		break;
+
+		// 	default: // table
+		// 		makeTable(output, numRows, numCols);
+		// 		break;
+		// }
 
 		// if there is an input chop parameter:
 		const OP_CHOPInput	*cinput = inputs->getParCHOP("Chop");
