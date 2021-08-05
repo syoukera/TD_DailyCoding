@@ -19,6 +19,7 @@
 #include <math.h>
 #include <assert.h>
 #include <array>
+#include <random>
 
 // These functions are basic C function, which the DLL loader can find
 // much easier than finding a C++ Class.
@@ -131,18 +132,24 @@ CPlusPlusDATExample::makeText(DAT_Output* output)
 void
 CPlusPlusDATExample::initializeVoids(int numVoids)
 {
-	// if (numVoids > length_array)
-	// {
-	// 	return
-	// }
+    std::mt19937 mt{ std::random_device{}() };
+    std::uniform_real_distribution<double> dist(0.0, 1.0);
 
 	for (int i = 0; i!=numVoids; ++i)
 	{
-		myArray[i][0] = 1*i;
-		myArray[i][1] = 2*i;
-		myArray[i][2] = 3*i;
+		x[i][0] = dist(mt)*2.0 - 1.0;
+		x[i][1] = dist(mt)*2.0 - 1.0;
+		x[i][2] = dist(mt)*2.0 - 1.0;
 	}
 
+	for (int i = 0; i!=numVoids; ++i)
+	{
+		v[i][0] = (dist(mt)*2.0 - 1.0)*minVelocity;
+		v[i][1] = (dist(mt)*2.0 - 1.0)*minVelocity;
+		v[i][2] = (dist(mt)*2.0 - 1.0)*minVelocity;
+	}
+
+	int dummy = 0;
 }
 
 void

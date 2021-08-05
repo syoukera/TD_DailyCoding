@@ -52,6 +52,8 @@ private:
 	void				makeTable(DAT_Output* output, int numRows, int numCols);
 	void				makeText(DAT_Output* output);
 
+	void                initializeVoids(int numVoids);
+
 	// We don't need to store this pointer, but we do for the example.
 	// The OP_NodeInfo class store information about the node that's using
 	// this instance of the class (like its name).
@@ -69,5 +71,12 @@ private:
 
 	std::string         myDat;
 
+	static const int length_array = 1000;
 
+	double x[length_array][3];
+	double v[length_array][3];
+
+	double minVelocity = 0.005;
+	double maxVelocity = 0.03;
+	
 };
