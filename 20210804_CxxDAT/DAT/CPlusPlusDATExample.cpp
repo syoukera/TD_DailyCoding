@@ -215,7 +215,7 @@ CPlusPlusDATExample::execute(DAT_Output* output,
 			this->initializeVoids(numVoids);
 		}
 
-		makeTable(output, numRows=numVoids, numCols=6);
+		makeTable(output, numVoids, 6);
 
 		// switch (outputDataType)
 		// {
