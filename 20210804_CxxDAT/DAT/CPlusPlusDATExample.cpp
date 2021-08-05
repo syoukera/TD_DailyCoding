@@ -129,6 +129,23 @@ CPlusPlusDATExample::makeText(DAT_Output* output)
 }
 
 void
+CPlusPlusDATExample::initializeVoids(int numVoids)
+{
+	// if (numVoids > length_array)
+	// {
+	// 	return
+	// }
+
+	for (int i = 0; i!=numVoids; ++i)
+	{
+		myArray[i][0] = 1*i;
+		myArray[i][1] = 2*i;
+		myArray[i][2] = 3*i;
+	}
+
+}
+
+void
 CPlusPlusDATExample::execute(DAT_Output* output,
 							const OP_Inputs* inputs,
 							void* reserved)
@@ -180,6 +197,12 @@ CPlusPlusDATExample::execute(DAT_Output* output,
 		int outputDataType = inputs->getParInt("Outputtype");
 		int	 numRows = inputs->getParInt("Rows");
 		int	 numCols = inputs->getParInt("Cols");
+
+		int numVoids = inputs->getParInt("Voids");
+
+		if (myExecuteCount == 1) {
+			this->initializeVoids(numVoids);
+		}
 
 		switch (outputDataType)
 		{
@@ -381,6 +404,20 @@ CPlusPlusDATExample::setupParameters(OP_ParameterManager* manager, void* reserve
 		np.defaultValues[0] = 5;
 		np.minSliders[0] = 0;
 		np.maxSliders[0] = 10;
+
+		OP_ParAppendResult res = manager->appendInt(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
+
+	// Number of Voids
+	{
+		OP_NumericParameter	np;
+
+		np.name = "Voids";
+		np.label = "Voids";
+		np.defaultValues[0] = 30;
+		np.minSliders[0] = 1;
+		np.maxSliders[0] = 100;
 
 		OP_ParAppendResult res = manager->appendInt(np);
 		assert(res == OP_ParAppendResult::Success);
