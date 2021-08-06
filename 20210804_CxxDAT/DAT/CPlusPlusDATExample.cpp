@@ -206,12 +206,11 @@ CPlusPlusDATExample::execute(DAT_Output* output,
 		inputs->enablePar("Outputtype", 1);
 
 		int outputDataType = inputs->getParInt("Outputtype");
-		int	 numRows = inputs->getParInt("Rows");
-		int	 numCols = inputs->getParInt("Cols");
-
+		int	numRows = inputs->getParInt("Rows");
+		int	numCols = inputs->getParInt("Cols");
 		int numVoids = inputs->getParInt("Voids");
 
-		if (myExecuteCount == 1) {
+		if (myExecuteCount == 1 || numVoids != numVoids_pre) {
 			this->initializeVoids(numVoids);
 		}
 
