@@ -123,7 +123,7 @@ CPlusPlusDATExample::makeTable(DAT_Output* output, int numVoids, int numVals)
 			if (j < 3)
 				output->setCellDouble(i2, j, x[i][j]);
 			else
-				output->setCellDouble(i2, j, v[i][j]);
+				output->setCellDouble(i2, j, v[i][j-3]);
 		}
 	}
 }
