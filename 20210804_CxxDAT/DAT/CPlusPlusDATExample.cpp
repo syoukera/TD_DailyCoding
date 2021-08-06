@@ -21,6 +21,7 @@
 #include <array>
 #include <random>
 #include <float.h>
+#include <cmath>
 
 // These functions are basic C function, which the DLL loader can find
 // much easier than finding a C++ Class.
@@ -175,7 +176,25 @@ CPlusPlusDATExample::updateVoids()
 			  + x_this[1]*x[j][1]
 			  + x_this[2]*x[j][2]
 			  );
+
+			angle[j] = acos(
+				(
+					v_this[0]*(x[j][0] - x_this[0])
+				  + v_this[1]*(x[j][1] - x_this[1])
+				  + v_this[2]*(x[j][2] - x_this[2])
+				)
+				/sqrt(
+					std::pow(v_this[0], 2) 
+				  + std::pow(v_this[1], 2) 
+				  + std::pow(v_this[2], 2)
+				)
+				/distance[j]
+			);
+
+
 		}
+
+
 	}
 }
 

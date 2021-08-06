@@ -77,10 +77,25 @@ private:
 	double x[length_array][3];
 	double v[length_array][3];
 	double distance[length_array];
+	double angle[length_array];
 
-	double minVelocity = 0.005;
-	double maxVelocity = 0.03;
+	const double minVelocity = 0.005;
+	const double maxVelocity = 0.03;
 
+	const double cohesionForce = 0.008;
+	const double separationForce = 0.4;
+	const double alignmentForce = 0.06;
+
+	const double cohesionDistance = 0.5;
+	const double separationDistance = 0.05;
+	const double alignmentDistance = 0.1;
+
+	const double PI = 3.141592653589793;
+
+	const double cohesionAngle = PI/2.0;
+	const double separationAngle = PI/2.0;
+	const double alignmentAngle = PI/3.0;
+	
 	int numVoids = 0;
 	
 };
