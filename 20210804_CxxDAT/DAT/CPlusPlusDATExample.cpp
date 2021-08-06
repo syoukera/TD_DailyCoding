@@ -172,10 +172,13 @@ CPlusPlusDATExample::updateVoids()
 				distance[j] = FLT_MAX;
 			
 			distance[j] = sqrt(
-				x_this[0]*x[j][0] 
-			  + x_this[1]*x[j][1]
-			  + x_this[2]*x[j][2]
+				std::pow(x_this[0] - x[j][0], 2) 
+			  + std::pow(x_this[1] - x[j][1], 2)
+			  + std::pow(x_this[2] - x[j][2], 2)
 			  );
+
+			if (j == i)
+				angle[j] = FLT_MAX;
 
 			angle[j] = acos(
 				(
@@ -340,6 +343,8 @@ CPlusPlusDATExample::execute(DAT_Output* output,
 			this->numVoids = numVoids;
 			this->initializeVoids();
 		}
+
+		this->updateVoids();
 
 		makeTable(output, numVoids, 6);
 
