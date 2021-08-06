@@ -85,6 +85,7 @@ private:
 	const double cohesionForce = 0.008;
 	const double separationForce = 0.4;
 	const double alignmentForce = 0.06;
+	const double boundaryForce = 0.06;
 
 	const double cohesionDistance = 0.5;
 	const double separationDistance = 0.05;

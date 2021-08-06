@@ -192,9 +192,9 @@ CPlusPlusDATExample::updateVoids()
 			);
 		}
 
-		double x_coh[3];
-		double x_sep[3];
-		double x_ali[3];
+		double x_coh[3] = {0.0, 0.0, 0.0};
+		double x_sep[3] = {0.0, 0.0, 0.0};
+		double x_ali[3] = {0.0, 0.0, 0.0};
 
 		int count_coh = 0;
 		int count_sep = 0;
@@ -215,7 +215,7 @@ CPlusPlusDATExample::updateVoids()
 			{
 				for (int k = 0; k < 3; ++k)
 				{
-					x_sep[k] += x[j][k];
+					x_sep[k] += x_this[k] - x[j][k];
 					count_sep++;
 				}
 			}
@@ -232,10 +232,53 @@ CPlusPlusDATExample::updateVoids()
 
 		for (int k = 0; k < 3; ++k)
 		{
-			x_coh[k] += count_coh;
-			x_sep[k] += count_sep;
-			x_ali[k] += count_ali;
+			// get average
+			x_coh[k] /= count_coh;
+			// x_sep[k] /= count_sep;
+			x_ali[k] /= count_ali;
+
+			// get difference
+			x_coh[k] -= x_this[k];
+			// x_sep[k] -= x_this[k];
+			x_ali[k] -= x_this[k];
 		}
+
+		double dist_center = sqrt(
+				std::pow(x_this[i], 2) 
+			  + std::pow(x_this[i], 2) 
+			  + std::pow(x_this[i], 2)
+			);
+
+		for (int k = 0; k < 3; ++k)
+		{
+			v[i][k] += cohesionForce*x_coh[k];
+			v[i][k] += separationForce*x_sep[k];
+			v[i][k] += alignmentForce*x_ali[k];
+		}
+
+		if (dist_center > 1.0)
+		{
+			for (int k = 0; k < 3; ++k)
+			{
+				v[i][k] -= boundaryForce*x_this[k]*(dist_center - 1)/dist_center;
+			}
+		}
+
+		double v_abs = sqrt(
+			std::pow(v[i][0], 2) 
+		  + std::pow(v[i][1], 2) 
+		  + std::pow(v[i][2], 2)
+		);
+
+		if (v_abs < minVelocity)
+			for (int k = 0; k < 3; ++k)
+				v[i][k] = minVelocity*v[i][k]/v_abs;
+		else if (v_abs > maxVelocity)
+			for (int k = 0; k < 3; ++k)
+				v[i][k] = maxVelocity*v[i][k]/v_abs;
+
+		for (int k = 0; k < 3; ++k)
+			x[i][k] += v[i][k];
 	}
 }
 
