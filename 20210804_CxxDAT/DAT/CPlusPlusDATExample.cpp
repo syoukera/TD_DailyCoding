@@ -190,11 +190,52 @@ CPlusPlusDATExample::updateVoids()
 				)
 				/distance[j]
 			);
-
-
 		}
 
+		double x_coh[3];
+		double x_sep[3];
+		double x_ali[3];
 
+		int count_coh = 0;
+		int count_sep = 0;
+		int count_ali = 0;
+
+		for (int j = 0; j < numVoids; ++j)
+		{
+			if (distance[j] < cohesionDistance && angle[j] < cohesionAngle)
+			{
+				for (int k = 0; k < 3; ++k)
+				{
+					x_coh[k] += x[j][k];
+					count_coh++;
+				}
+			}
+			
+			if (distance[j] < separationDistance && angle[j] < separationAngle)
+			{
+				for (int k = 0; k < 3; ++k)
+				{
+					x_sep[k] += x[j][k];
+					count_sep++;
+				}
+			}
+			
+			if (distance[j] < alignmentDistance && angle[j] < alignmentAngle)
+			{
+				for (int k = 0; k < 3; ++k)
+				{
+					x_ali[k] += x[j][k];
+					count_ali++;
+				}
+			}
+		}
+
+		for (int k = 0; k < 3; ++k)
+		{
+			x_coh[k] += count_coh;
+			x_sep[k] += count_sep;
+			x_ali[k] += count_ali;
+		}
 	}
 }
 
