@@ -52,7 +52,8 @@ private:
 	void				makeTable(DAT_Output* output, int numRows, int numCols);
 	void				makeText(DAT_Output* output);
 
-	void                initializeVoids(int numVoids);
+	void                initializeVoids();
+	void                updateVoids();
 
 	// We don't need to store this pointer, but we do for the example.
 	// The OP_NodeInfo class store information about the node that's using
@@ -75,8 +76,11 @@ private:
 
 	double x[length_array][3];
 	double v[length_array][3];
+	double distance[length_array];
 
 	double minVelocity = 0.005;
 	double maxVelocity = 0.03;
+
+	int numVoids = 0;
 	
 };

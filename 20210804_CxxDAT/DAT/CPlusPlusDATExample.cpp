@@ -20,6 +20,7 @@
 #include <assert.h>
 #include <array>
 #include <random>
+#include <float.h>
 
 // These functions are basic C function, which the DLL loader can find
 // much easier than finding a C++ Class.
@@ -136,7 +137,7 @@ CPlusPlusDATExample::makeText(DAT_Output* output)
 }
 
 void
-CPlusPlusDATExample::initializeVoids(int numVoids)
+CPlusPlusDATExample::initializeVoids()
 {
     std::mt19937 mt{ std::random_device{}() };
     std::uniform_real_distribution<double> dist(0.0, 1.0);
@@ -153,6 +154,28 @@ CPlusPlusDATExample::initializeVoids(int numVoids)
 		v[i][0] = (dist(mt)*2.0 - 1.0)*minVelocity;
 		v[i][1] = (dist(mt)*2.0 - 1.0)*minVelocity;
 		v[i][2] = (dist(mt)*2.0 - 1.0)*minVelocity;
+	}
+}
+
+void
+CPlusPlusDATExample::updateVoids()
+{
+	for (int i = 0; i < numVoids; ++i)
+	{
+		double x_this[3] = {x[i][0], x[i][1], x[i][2]};
+		double v_this[3] = {v[i][0], v[i][1], v[i][2]};
+
+		for (int j = 0; j < numVoids; ++j)
+		{
+			if (j == i)
+				distance[j] = FLT_MAX;
+			
+			distance[j] = sqrt(
+				x_this[0]*x[j][0] 
+			  + x_this[1]*x[j][1]
+			  + x_this[2]*x[j][2]
+			  );
+		}
 	}
 }
 
@@ -210,8 +233,9 @@ CPlusPlusDATExample::execute(DAT_Output* output,
 		int	numCols = inputs->getParInt("Cols");
 		int numVoids = inputs->getParInt("Voids");
 
-		if (myExecuteCount == 1 || numVoids != numVoids_pre) {
-			this->initializeVoids(numVoids);
+		if (numVoids != this->numVoids) {
+			this->numVoids = numVoids;
+			this->initializeVoids();
 		}
 
 		makeTable(output, numVoids, 6);
