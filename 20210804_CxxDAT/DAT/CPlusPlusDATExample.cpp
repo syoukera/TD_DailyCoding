@@ -161,6 +161,15 @@ CPlusPlusDATExample::initializeVoids()
 void
 CPlusPlusDATExample::updateVoids()
 {
+
+	double x_coh[3] = {0.0, 0.0, 0.0};
+	double x_sep[3] = {0.0, 0.0, 0.0};
+	double x_ali[3] = {0.0, 0.0, 0.0};
+
+	int count_coh = 0;
+	int count_sep = 0;
+	int count_ali = 0;
+
 	for (int i = 0; i < numVoids; ++i)
 	{
 		double x_this[3] = {x[i][0], x[i][1], x[i][2]};
@@ -170,38 +179,30 @@ CPlusPlusDATExample::updateVoids()
 		{
 			if (j == i)
 				distance[j] = FLT_MAX;
-			
-			distance[j] = sqrt(
-				std::pow(x_this[0] - x[j][0], 2) 
-			  + std::pow(x_this[1] - x[j][1], 2)
-			  + std::pow(x_this[2] - x[j][2], 2)
-			  );
+			else
+				distance[j] = sqrt(
+					std::pow(x_this[0] - x[j][0], 2) 
+				  + std::pow(x_this[1] - x[j][1], 2)
+				  + std::pow(x_this[2] - x[j][2], 2)
+				);
 
 			if (j == i)
 				angle[j] = FLT_MAX;
-
-			angle[j] = acos(
-				(
-					v_this[0]*(x[j][0] - x_this[0])
-				  + v_this[1]*(x[j][1] - x_this[1])
-				  + v_this[2]*(x[j][2] - x_this[2])
-				)
-				/sqrt(
-					std::pow(v_this[0], 2) 
-				  + std::pow(v_this[1], 2) 
-				  + std::pow(v_this[2], 2)
-				)
-				/distance[j]
-			);
+			else
+				angle[j] = acos(
+					(
+						v_this[0]*(x[j][0] - x_this[0])
+					  + v_this[1]*(x[j][1] - x_this[1])
+					  + v_this[2]*(x[j][2] - x_this[2])
+					)
+					/sqrt(
+						std::pow(v_this[0], 2) 
+					  + std::pow(v_this[1], 2) 
+					  + std::pow(v_this[2], 2)
+					)
+					/distance[j]
+				);
 		}
-
-		double x_coh[3] = {0.0, 0.0, 0.0};
-		double x_sep[3] = {0.0, 0.0, 0.0};
-		double x_ali[3] = {0.0, 0.0, 0.0};
-
-		int count_coh = 0;
-		int count_sep = 0;
-		int count_ali = 0;
 
 		for (int j = 0; j < numVoids; ++j)
 		{
@@ -210,8 +211,8 @@ CPlusPlusDATExample::updateVoids()
 				for (int k = 0; k < 3; ++k)
 				{
 					x_coh[k] += x[j][k];
-					count_coh++;
 				}
+				count_coh++;
 			}
 			
 			if (distance[j] < separationDistance && angle[j] < separationAngle)
@@ -219,8 +220,8 @@ CPlusPlusDATExample::updateVoids()
 				for (int k = 0; k < 3; ++k)
 				{
 					x_sep[k] += x_this[k] - x[j][k];
-					count_sep++;
 				}
+				count_sep++;
 			}
 			
 			if (distance[j] < alignmentDistance && angle[j] < alignmentAngle)
@@ -228,21 +229,27 @@ CPlusPlusDATExample::updateVoids()
 				for (int k = 0; k < 3; ++k)
 				{
 					x_ali[k] += x[j][k];
-					count_ali++;
 				}
+				count_ali++;
 			}
 		}
+	}
+
+	for (int i = 0; i < numVoids; ++i)
+	{
+		double x_this[3] = {x[i][0], x[i][1], x[i][2]};
+		double v_this[3] = {v[i][0], v[i][1], v[i][2]};
 
 		for (int k = 0; k < 3; ++k)
 		{
 			// get average
-			x_coh[k] /= count_coh;
-			// x_sep[k] /= count_sep;
-			x_ali[k] /= count_ali;
+			if (count_coh != 0)
+				x_coh[k] /= count_coh;
+			if (count_ali != 0)
+				x_ali[k] /= count_ali;
 
 			// get difference
 			x_coh[k] -= x_this[k];
-			// x_sep[k] -= x_this[k];
 			x_ali[k] -= x_this[k];
 		}
 
