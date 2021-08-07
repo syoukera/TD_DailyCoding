@@ -244,13 +244,15 @@ CPlusPlusDATExample::updateVoids()
 		{
 			// get average
 			if (count_coh != 0)
+			{
 				x_coh[k] /= count_coh;
+				x_coh[k] -= x_this[k];
+			}
 			if (count_ali != 0)
+			{
 				x_ali[k] /= count_ali;
-
-			// get difference
-			x_coh[k] -= x_this[k];
-			x_ali[k] -= x_this[k];
+				x_ali[k] -= x_this[k];
+			}
 		}
 
 		double dist_center = sqrt(
