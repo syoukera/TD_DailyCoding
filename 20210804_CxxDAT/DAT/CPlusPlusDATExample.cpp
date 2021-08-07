@@ -341,8 +341,10 @@ CPlusPlusDATExample::execute(DAT_Output* output,
 	// int outputDataType = inputs->getParInt("Outputtype");
 	// int	numRows = inputs->getParInt("Rows");
 	// int	numCols = inputs->getParInt("Cols");
-	
+
 	int numVoids = inputs->getParInt("Voids");
+	double minVel = inputs->getParDouble("maxVel");
+	double minVel = inputs->getParDouble("minVel");
 
 	if (numVoids != this->numVoids) {
 		this->numVoids = numVoids;
@@ -568,6 +570,34 @@ CPlusPlusDATExample::setupParameters(OP_ParameterManager* manager, void* reserve
 		np.maxSliders[0] = 100;
 
 		OP_ParAppendResult res = manager->appendInt(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
+
+	// Minimum velocity
+	{
+		OP_NumericParameter	np;
+
+		np.name = "maxVel";
+		np.label = "maxVel";
+		np.defaultValues[0] = 0.3;
+		np.minSliders[0] = 0.0;
+		np.maxSliders[0] = 1.0;
+		
+		OP_ParAppendResult res = manager->appendFloat(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
+
+	// Max velocity
+	{
+		OP_NumericParameter	np;
+
+		np.name = "minVel";
+		np.label = "minVel";
+		np.defaultValues[0] = 0.01;
+		np.minSliders[0] = 0.0;
+		np.maxSliders[0] = 1.0;
+		
+		OP_ParAppendResult res = manager->appendFloat(np);
 		assert(res == OP_ParAppendResult::Success);
 	}
 
