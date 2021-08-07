@@ -298,58 +298,60 @@ CPlusPlusDATExample::execute(DAT_Output* output,
 	if (!output)
 		return;
 
-	if (inputs->getNumInputs() > 0)
-	{
-		inputs->enablePar("Rows", 0);		// not used
-		inputs->enablePar("Cols", 0);		// not used
-		inputs->enablePar("Outputtype", 0);	// not used
+	// if (inputs->getNumInputs() > 0)
+	// {
+	// 	inputs->enablePar("Rows", 0);		// not used
+	// 	inputs->enablePar("Cols", 0);		// not used
+	// 	inputs->enablePar("Outputtype", 0);	// not used
 
-		const OP_DATInput	*cinput = inputs->getInputDAT(0);
+	// 	const OP_DATInput	*cinput = inputs->getInputDAT(0);
 
-		int numRows = cinput->numRows;
-		int numCols = cinput->numCols;
-		bool isTable = cinput->isTable;
+	// 	int numRows = cinput->numRows;
+	// 	int numCols = cinput->numCols;
+	// 	bool isTable = cinput->isTable;
 
-		if (!isTable) // is Text
-		{
-			const char* str = cinput->getCell(0, 0);
-			output->setText(str);
-		}
-		else
-		{
-			output->setOutputDataType(DAT_OutDataType::Table);
-			output->setTableSize(numRows, numCols);
+	// 	if (!isTable) // is Text
+	// 	{
+	// 		const char* str = cinput->getCell(0, 0);
+	// 		output->setText(str);
+	// 	}
+	// 	else
+	// 	{
+	// 		output->setOutputDataType(DAT_OutDataType::Table);
+	// 		output->setTableSize(numRows, numCols);
 
-			for (int i = 0; i < cinput->numRows; i++)
-			{
-				for (int j = 0; j < cinput->numCols; j++)
-				{
-					const char* str = cinput->getCell(i, j);
-					output->setCellString(i, j, str);
-				}
-			}
-		}
+	// 		for (int i = 0; i < cinput->numRows; i++)
+	// 		{
+	// 			for (int j = 0; j < cinput->numCols; j++)
+	// 			{
+	// 				const char* str = cinput->getCell(i, j);
+	// 				output->setCellString(i, j, str);
+	// 			}
+	// 		}
+	// 	}
 
+	// }
+	// else // If no input is connected, lets output a custom table/text DAT
+	// {
+
+	// inputs->enablePar("Rows", 1);
+	// inputs->enablePar("Cols", 1);
+	// inputs->enablePar("Outputtype", 1);
+
+	// int outputDataType = inputs->getParInt("Outputtype");
+	// int	numRows = inputs->getParInt("Rows");
+	// int	numCols = inputs->getParInt("Cols");
+	
+	int numVoids = inputs->getParInt("Voids");
+
+	if (numVoids != this->numVoids) {
+		this->numVoids = numVoids;
+		this->initializeVoids();
 	}
-	else // If no input is connected, lets output a custom table/text DAT
-	{
-		inputs->enablePar("Rows", 1);
-		inputs->enablePar("Cols", 1);
-		inputs->enablePar("Outputtype", 1);
 
-		int outputDataType = inputs->getParInt("Outputtype");
-		int	numRows = inputs->getParInt("Rows");
-		int	numCols = inputs->getParInt("Cols");
-		int numVoids = inputs->getParInt("Voids");
+	this->updateVoids();
 
-		if (numVoids != this->numVoids) {
-			this->numVoids = numVoids;
-			this->initializeVoids();
-		}
-
-		this->updateVoids();
-
-		makeTable(output, numVoids, 6);
+	makeTable(output, numVoids, 6);
 
 		// switch (outputDataType)
 		// {
@@ -367,34 +369,33 @@ CPlusPlusDATExample::execute(DAT_Output* output,
 		// }
 
 		// if there is an input chop parameter:
-		const OP_CHOPInput	*cinput = inputs->getParCHOP("Chop");
-		if (cinput)
-		{
-			int numSamples = cinput->numSamples;
-			int ind = 0;
-			for (int i = 0; i < cinput->numChannels; i++)
-			{
-				myChopChanName = std::string(cinput->getChannelName(i));
-				myChop = inputs->getParString("Chop");
+// 		const OP_CHOPInput	*cinput = inputs->getParCHOP("Chop");
+// 		if (cinput)
+// 		{
+// 			int numSamples = cinput->numSamples;
+// 			int ind = 0;
+// 			for (int i = 0; i < cinput->numChannels; i++)
+// 			{
+// 				myChopChanName = std::string(cinput->getChannelName(i));
+// 				myChop = inputs->getParString("Chop");
 
-				static char tempBuffer[50];
-				myChopChanVal = float(cinput->getChannelData(i)[ind]);
+// 				static char tempBuffer[50];
+// 				myChopChanVal = float(cinput->getChannelData(i)[ind]);
 
-#ifdef _WIN32
-				sprintf_s(tempBuffer, "%g", myChopChanVal);
-#else // macOS
-				snprintf(tempBuffer, sizeof(tempBuffer), "%g", myChopChanVal);
-#endif
-				if (numCols == 0)
-					numCols = 2;
-				output->setTableSize(numRows + i + 1, numCols);
-				output->setCellString(numRows + i, 0, myChopChanName.c_str());
-				output->setCellString(numRows + i, 1, &tempBuffer[0]);
-			}
+// #ifdef _WIN32
+// 				sprintf_s(tempBuffer, "%g", myChopChanVal);
+// #else // macOS
+// 				snprintf(tempBuffer, sizeof(tempBuffer), "%g", myChopChanVal);
+// #endif
+// 				if (numCols == 0)
+// 					numCols = 2;
+// 				output->setTableSize(numRows + i + 1, numCols);
+// 				output->setCellString(numRows + i, 0, myChopChanName.c_str());
+// 				output->setCellString(numRows + i, 1, &tempBuffer[0]);
+// 			}
 
-		}
-
-	}
+// 		}
+// 	}
 }
 
 int32_t
@@ -517,44 +518,44 @@ CPlusPlusDATExample::getInfoDATEntries(int32_t index,
 void
 CPlusPlusDATExample::setupParameters(OP_ParameterManager* manager, void* reserved1)
 {
-	// CHOP
-	{
-		OP_StringParameter	np;
+	// // CHOP
+	// {
+	// 	OP_StringParameter	np;
 
-		np.name = "Chop";
-		np.label = "CHOP";
+	// 	np.name = "Chop";
+	// 	np.label = "CHOP";
 
-		OP_ParAppendResult res = manager->appendCHOP(np);
-		assert(res == OP_ParAppendResult::Success);
-	}
+	// 	OP_ParAppendResult res = manager->appendCHOP(np);
+	// 	assert(res == OP_ParAppendResult::Success);
+	// }
 
-	// Number of Rows
-	{
-		OP_NumericParameter	np;
+	// // Number of Rows
+	// {
+	// 	OP_NumericParameter	np;
 
-		np.name = "Rows";
-		np.label = "Rows";
-		np.defaultValues[0] = 4;
-		np.minSliders[0] = 0;
-		np.maxSliders[0] = 10;
+	// 	np.name = "Rows";
+	// 	np.label = "Rows";
+	// 	np.defaultValues[0] = 4;
+	// 	np.minSliders[0] = 0;
+	// 	np.maxSliders[0] = 10;
 
-		OP_ParAppendResult res = manager->appendInt(np);
-		assert(res == OP_ParAppendResult::Success);
-	}
+	// 	OP_ParAppendResult res = manager->appendInt(np);
+	// 	assert(res == OP_ParAppendResult::Success);
+	// }
 
-	// Number of Columns
-	{
-		OP_NumericParameter	np;
+	// // Number of Columns
+	// {
+	// 	OP_NumericParameter	np;
 
-		np.name = "Cols";
-		np.label = "Cols";
-		np.defaultValues[0] = 5;
-		np.minSliders[0] = 0;
-		np.maxSliders[0] = 10;
+	// 	np.name = "Cols";
+	// 	np.label = "Cols";
+	// 	np.defaultValues[0] = 5;
+	// 	np.minSliders[0] = 0;
+	// 	np.maxSliders[0] = 10;
 
-		OP_ParAppendResult res = manager->appendInt(np);
-		assert(res == OP_ParAppendResult::Success);
-	}
+	// 	OP_ParAppendResult res = manager->appendInt(np);
+	// 	assert(res == OP_ParAppendResult::Success);
+	// }
 
 	// Number of Voids
 	{
@@ -570,21 +571,21 @@ CPlusPlusDATExample::setupParameters(OP_ParameterManager* manager, void* reserve
 		assert(res == OP_ParAppendResult::Success);
 	}
 
-	// DAT output type
-	{
-		OP_StringParameter	sp;
+	// // DAT output type
+	// {
+	// 	OP_StringParameter	sp;
 
-		sp.name = "Outputtype";
-		sp.label = "Output Type";
+	// 	sp.name = "Outputtype";
+	// 	sp.label = "Output Type";
 
-		sp.defaultValue = "Table";
+	// 	sp.defaultValue = "Table";
 
-		const char *names[] = {"Table", "Text"};
-		const char *labels[] = {"Table", "Text"};
+	// 	const char *names[] = {"Table", "Text"};
+	// 	const char *labels[] = {"Table", "Text"};
 
-		OP_ParAppendResult res = manager->appendMenu(sp, 2, names, labels);
-		assert(res == OP_ParAppendResult::Success);
-	}
+	// 	OP_ParAppendResult res = manager->appendMenu(sp, 2, names, labels);
+	// 	assert(res == OP_ParAppendResult::Success);
+	// }
 
 	// pulse
 	{
