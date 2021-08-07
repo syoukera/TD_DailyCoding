@@ -233,12 +233,6 @@ CPlusPlusDATExample::updateVoids()
 				count_ali++;
 			}
 		}
-	}
-
-	for (int i = 0; i < numVoids; ++i)
-	{
-		double x_this[3] = {x[i][0], x[i][1], x[i][2]};
-		double v_this[3] = {v[i][0], v[i][1], v[i][2]};
 
 		for (int k = 0; k < 3; ++k)
 		{

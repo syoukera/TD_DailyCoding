@@ -72,7 +72,7 @@ private:
 
 	std::string         myDat;
 
-	static const int length_array = 1000;
+	static const int length_array = 10000;
 
 	double x[length_array][3];
 	double v[length_array][3];
