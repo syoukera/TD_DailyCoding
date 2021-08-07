@@ -80,7 +80,7 @@ private:
 	double angle[length_array];
 
 	const double minVelocity = 0.005;
-	const double maxVelocity = 0.03;
+	const double maxVelocity = 0.3;
 
 	const double cohesionForce = 0.008;
 	const double separationForce = 0.4;
