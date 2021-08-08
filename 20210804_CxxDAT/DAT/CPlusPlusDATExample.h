@@ -79,8 +79,8 @@ private:
 	double distance[length_array];
 	double angle[length_array];
 
-	double minVelocity = 0.005;
-	double maxVelocity = 0.3;
+	double minVelocity;
+	double maxVelocity;
 
 	const double cohesionForce = 0.008;
 	const double separationForce = 0.4;

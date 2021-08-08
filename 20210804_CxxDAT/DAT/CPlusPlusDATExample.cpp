@@ -449,7 +449,7 @@ CPlusPlusDATExample::setupParameters(OP_ParameterManager* manager, void* reserve
 		np.label = "Voids";
 		np.defaultValues[0] = 30;
 		np.minSliders[0] = 1;
-		np.maxSliders[0] = 100;
+		np.maxSliders[0] = 300;
 
 		OP_ParAppendResult res = manager->appendInt(np);
 		assert(res == OP_ParAppendResult::Success);
@@ -482,6 +482,104 @@ CPlusPlusDATExample::setupParameters(OP_ParameterManager* manager, void* reserve
 		OP_ParAppendResult res = manager->appendFloat(np);
 		assert(res == OP_ParAppendResult::Success);
 	}
+	
+	// Cohesion Force
+	{
+		OP_NumericParameter	np;
+
+		np.name = "Cohforce";
+		np.label = "Cohesion Force";
+		np.defaultValues[0] = 0.008;
+		np.minSliders[0] = 0.0;
+		np.maxSliders[0] = 1.0;
+		
+		OP_ParAppendResult res = manager->appendFloat(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
+		
+	// Separation Force
+	{
+		OP_NumericParameter	np;
+
+		np.name = "Sepforce";
+		np.label = "Separation Force";
+		np.defaultValues[0] = 0.4;
+		np.minSliders[0] = 0.0;
+		np.maxSliders[0] = 1.0;
+		
+		OP_ParAppendResult res = manager->appendFloat(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
+	
+	// Alignment Force
+	{
+		OP_NumericParameter	np;
+
+		np.name = "Aliforce";
+		np.label = "Alignment Force";
+		np.defaultValues[0] = 0.06;
+		np.minSliders[0] = 0.0;
+		np.maxSliders[0] = 1.0;
+		
+		OP_ParAppendResult res = manager->appendFloat(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
+		
+	// Boundary Force
+	{
+		OP_NumericParameter	np;
+
+		np.name = "Bdrforce";
+		np.label = "Boundary Force";
+		np.defaultValues[0] = 0.06;
+		np.minSliders[0] = 0.0;
+		np.maxSliders[0] = 1.0;
+		
+		OP_ParAppendResult res = manager->appendFloat(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
+		
+	// Cohesion Distance
+	{
+		OP_NumericParameter	np;
+
+		np.name = "Cohdist";
+		np.label = "Cohesion Distance";
+		np.defaultValues[0] = 0.5;
+		np.minSliders[0] = 0.0;
+		np.maxSliders[0] = 1.0;
+		
+		OP_ParAppendResult res = manager->appendFloat(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
+		
+	// Separation Distance
+	{
+		OP_NumericParameter	np;
+
+		np.name = "Sepdist";
+		np.label = "Separation Distance";
+		np.defaultValues[0] = 0.05;
+		np.minSliders[0] = 0.0;
+		np.maxSliders[0] = 1.0;
+		
+		OP_ParAppendResult res = manager->appendFloat(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
+			
+	// Alignment Distance
+	{
+		OP_NumericParameter	np;
+
+		np.name = "Alidist";
+		np.label = "Alignmnet Distance";
+		np.defaultValues[0] = 0.1;
+		np.minSliders[0] = 0.0;
+		np.maxSliders[0] = 1.0;
+		
+		OP_ParAppendResult res = manager->appendFloat(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
 
 	// pulse
 	{
@@ -493,7 +591,6 @@ CPlusPlusDATExample::setupParameters(OP_ParameterManager* manager, void* reserve
 		OP_ParAppendResult res = manager->appendPulse(np);
 		assert(res == OP_ParAppendResult::Success);
 	}
-
 }
 
 void
