@@ -341,10 +341,14 @@ CPlusPlusDATExample::execute(DAT_Output* output,
 	// int outputDataType = inputs->getParInt("Outputtype");
 	// int	numRows = inputs->getParInt("Rows");
 	// int	numCols = inputs->getParInt("Cols");
+	
+	inputs->enablePar("Voids", 1);
+	inputs->enablePar("Maxvel", 1);
+	inputs->enablePar("Minvel", 1);
 
 	int numVoids = inputs->getParInt("Voids");
-	double minVel = inputs->getParDouble("maxVel");
-	double minVel = inputs->getParDouble("minVel");
+	double maxVel = inputs->getParDouble("Maxvel");
+	double minVel = inputs->getParDouble("Minvel");
 
 	if (numVoids != this->numVoids) {
 		this->numVoids = numVoids;
@@ -573,12 +577,12 @@ CPlusPlusDATExample::setupParameters(OP_ParameterManager* manager, void* reserve
 		assert(res == OP_ParAppendResult::Success);
 	}
 
-	// Minimum velocity
+	// Maximum velocity
 	{
 		OP_NumericParameter	np;
 
-		np.name = "maxVel";
-		np.label = "maxVel";
+		np.name = "Maxvel";
+		np.label = "Maximum Velocity";
 		np.defaultValues[0] = 0.3;
 		np.minSliders[0] = 0.0;
 		np.maxSliders[0] = 1.0;
@@ -587,12 +591,12 @@ CPlusPlusDATExample::setupParameters(OP_ParameterManager* manager, void* reserve
 		assert(res == OP_ParAppendResult::Success);
 	}
 
-	// Max velocity
+	// Minimum velocity
 	{
 		OP_NumericParameter	np;
 
-		np.name = "minVel";
-		np.label = "minVel";
+		np.name = "Minvel";
+		np.label = "Minimum Velocity";
 		np.defaultValues[0] = 0.01;
 		np.minSliders[0] = 0.0;
 		np.maxSliders[0] = 1.0;
