@@ -318,9 +318,6 @@ CPlusPlusDATExample::execute(DAT_Output* output,
 		this->initializeVoids();
 	}
 
-	// this->maxVelocity = maxVel;
-	// this->minVelocity = minVel;
-
 	this->updateVoids();
 
 	makeTable(output, numVoids, 6);
