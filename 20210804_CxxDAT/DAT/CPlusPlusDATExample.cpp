@@ -303,16 +303,23 @@ CPlusPlusDATExample::execute(DAT_Output* output,
 	inputs->enablePar("Minvel", 1);
 
 	int numVoids = inputs->getParInt("Voids");
-	double maxVel = inputs->getParDouble("Maxvel");
-	double minVel = inputs->getParDouble("Minvel");
+	this->maxVelocity = inputs->getParDouble("Maxvel");
+	this->minVelocity = inputs->getParDouble("Minvel");
+	this->cohesionForce = inputs->getParDouble("Cohforce");
+	this->separationForce = inputs->getParDouble("Sepforce");
+	this->alignmentForce = inputs->getParDouble("Aliforce");
+	this->boundaryForce = inputs->getParDouble("Bdrforce");
+	this->cohesionDistance = inputs->getParDouble("Cohdist");
+	this->separationDistance = inputs->getParDouble("Sepdist");
+	this->alignmentDistance = inputs->getParDouble("Alidist");
 
 	if (numVoids != this->numVoids) {
 		this->numVoids = numVoids;
 		this->initializeVoids();
 	}
 
-	this->maxVelocity = maxVel;
-	this->minVelocity = minVel;
+	// this->maxVelocity = maxVel;
+	// this->minVelocity = minVel;
 
 	this->updateVoids();
 
