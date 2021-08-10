@@ -79,17 +79,17 @@ private:
 	double distance[length_array];
 	double angle[length_array];
 
-	const double minVelocity = 0.005;
-	const double maxVelocity = 0.3;
+	double minVelocity;
+	double maxVelocity;
 
-	const double cohesionForce = 0.008;
-	const double separationForce = 0.4;
-	const double alignmentForce = 0.06;
-	const double boundaryForce = 0.06;
+	double cohesionForce;
+	double separationForce;
+	double alignmentForce;
+	double boundaryForce;
 
-	const double cohesionDistance = 0.5;
-	const double separationDistance = 0.05;
-	const double alignmentDistance = 0.1;
+	double cohesionDistance;
+	double separationDistance;
+	double alignmentDistance;
 
 	const double PI = 3.141592653589793;
 

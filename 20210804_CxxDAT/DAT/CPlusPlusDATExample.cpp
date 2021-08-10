@@ -297,54 +297,21 @@ CPlusPlusDATExample::execute(DAT_Output* output,
 
 	if (!output)
 		return;
-
-	// if (inputs->getNumInputs() > 0)
-	// {
-	// 	inputs->enablePar("Rows", 0);		// not used
-	// 	inputs->enablePar("Cols", 0);		// not used
-	// 	inputs->enablePar("Outputtype", 0);	// not used
-
-	// 	const OP_DATInput	*cinput = inputs->getInputDAT(0);
-
-	// 	int numRows = cinput->numRows;
-	// 	int numCols = cinput->numCols;
-	// 	bool isTable = cinput->isTable;
-
-	// 	if (!isTable) // is Text
-	// 	{
-	// 		const char* str = cinput->getCell(0, 0);
-	// 		output->setText(str);
-	// 	}
-	// 	else
-	// 	{
-	// 		output->setOutputDataType(DAT_OutDataType::Table);
-	// 		output->setTableSize(numRows, numCols);
-
-	// 		for (int i = 0; i < cinput->numRows; i++)
-	// 		{
-	// 			for (int j = 0; j < cinput->numCols; j++)
-	// 			{
-	// 				const char* str = cinput->getCell(i, j);
-	// 				output->setCellString(i, j, str);
-	// 			}
-	// 		}
-	// 	}
-
-	// }
-	// else // If no input is connected, lets output a custom table/text DAT
-	// {
-
-	// inputs->enablePar("Rows", 1);
-	// inputs->enablePar("Cols", 1);
-	// inputs->enablePar("Outputtype", 1);
-
-	// int outputDataType = inputs->getParInt("Outputtype");
-	// int	numRows = inputs->getParInt("Rows");
-	// int	numCols = inputs->getParInt("Cols");
+	
+	inputs->enablePar("Voids", 1);
+	inputs->enablePar("Maxvel", 1);
+	inputs->enablePar("Minvel", 1);
 
 	int numVoids = inputs->getParInt("Voids");
-	double minVel = inputs->getParDouble("maxVel");
-	double minVel = inputs->getParDouble("minVel");
+	this->maxVelocity = inputs->getParDouble("Maxvel");
+	this->minVelocity = inputs->getParDouble("Minvel");
+	this->cohesionForce = inputs->getParDouble("Cohforce");
+	this->separationForce = inputs->getParDouble("Sepforce");
+	this->alignmentForce = inputs->getParDouble("Aliforce");
+	this->boundaryForce = inputs->getParDouble("Bdrforce");
+	this->cohesionDistance = inputs->getParDouble("Cohdist");
+	this->separationDistance = inputs->getParDouble("Sepdist");
+	this->alignmentDistance = inputs->getParDouble("Alidist");
 
 	if (numVoids != this->numVoids) {
 		this->numVoids = numVoids;
@@ -355,49 +322,6 @@ CPlusPlusDATExample::execute(DAT_Output* output,
 
 	makeTable(output, numVoids, 6);
 
-		// switch (outputDataType)
-		// {
-		// 	case 0:		// Table
-		// 		makeTable(output, numRows, numCols);
-		// 		break;
-
-		// 	case 1:		// Text
-		// 		makeText(output);
-		// 		break;
-
-		// 	default: // table
-		// 		makeTable(output, numRows, numCols);
-		// 		break;
-		// }
-
-		// if there is an input chop parameter:
-// 		const OP_CHOPInput	*cinput = inputs->getParCHOP("Chop");
-// 		if (cinput)
-// 		{
-// 			int numSamples = cinput->numSamples;
-// 			int ind = 0;
-// 			for (int i = 0; i < cinput->numChannels; i++)
-// 			{
-// 				myChopChanName = std::string(cinput->getChannelName(i));
-// 				myChop = inputs->getParString("Chop");
-
-// 				static char tempBuffer[50];
-// 				myChopChanVal = float(cinput->getChannelData(i)[ind]);
-
-// #ifdef _WIN32
-// 				sprintf_s(tempBuffer, "%g", myChopChanVal);
-// #else // macOS
-// 				snprintf(tempBuffer, sizeof(tempBuffer), "%g", myChopChanVal);
-// #endif
-// 				if (numCols == 0)
-// 					numCols = 2;
-// 				output->setTableSize(numRows + i + 1, numCols);
-// 				output->setCellString(numRows + i, 0, myChopChanName.c_str());
-// 				output->setCellString(numRows + i, 1, &tempBuffer[0]);
-// 			}
-
-// 		}
-// 	}
 }
 
 int32_t
@@ -520,44 +444,6 @@ CPlusPlusDATExample::getInfoDATEntries(int32_t index,
 void
 CPlusPlusDATExample::setupParameters(OP_ParameterManager* manager, void* reserved1)
 {
-	// // CHOP
-	// {
-	// 	OP_StringParameter	np;
-
-	// 	np.name = "Chop";
-	// 	np.label = "CHOP";
-
-	// 	OP_ParAppendResult res = manager->appendCHOP(np);
-	// 	assert(res == OP_ParAppendResult::Success);
-	// }
-
-	// // Number of Rows
-	// {
-	// 	OP_NumericParameter	np;
-
-	// 	np.name = "Rows";
-	// 	np.label = "Rows";
-	// 	np.defaultValues[0] = 4;
-	// 	np.minSliders[0] = 0;
-	// 	np.maxSliders[0] = 10;
-
-	// 	OP_ParAppendResult res = manager->appendInt(np);
-	// 	assert(res == OP_ParAppendResult::Success);
-	// }
-
-	// // Number of Columns
-	// {
-	// 	OP_NumericParameter	np;
-
-	// 	np.name = "Cols";
-	// 	np.label = "Cols";
-	// 	np.defaultValues[0] = 5;
-	// 	np.minSliders[0] = 0;
-	// 	np.maxSliders[0] = 10;
-
-	// 	OP_ParAppendResult res = manager->appendInt(np);
-	// 	assert(res == OP_ParAppendResult::Success);
-	// }
 
 	// Number of Voids
 	{
@@ -567,18 +453,18 @@ CPlusPlusDATExample::setupParameters(OP_ParameterManager* manager, void* reserve
 		np.label = "Voids";
 		np.defaultValues[0] = 30;
 		np.minSliders[0] = 1;
-		np.maxSliders[0] = 100;
+		np.maxSliders[0] = 300;
 
 		OP_ParAppendResult res = manager->appendInt(np);
 		assert(res == OP_ParAppendResult::Success);
 	}
 
-	// Minimum velocity
+	// Maximum velocity
 	{
 		OP_NumericParameter	np;
 
-		np.name = "maxVel";
-		np.label = "maxVel";
+		np.name = "Maxvel";
+		np.label = "Maximum Velocity";
 		np.defaultValues[0] = 0.3;
 		np.minSliders[0] = 0.0;
 		np.maxSliders[0] = 1.0;
@@ -587,12 +473,12 @@ CPlusPlusDATExample::setupParameters(OP_ParameterManager* manager, void* reserve
 		assert(res == OP_ParAppendResult::Success);
 	}
 
-	// Max velocity
+	// Minimum velocity
 	{
 		OP_NumericParameter	np;
 
-		np.name = "minVel";
-		np.label = "minVel";
+		np.name = "Minvel";
+		np.label = "Minimum Velocity";
 		np.defaultValues[0] = 0.01;
 		np.minSliders[0] = 0.0;
 		np.maxSliders[0] = 1.0;
@@ -600,22 +486,104 @@ CPlusPlusDATExample::setupParameters(OP_ParameterManager* manager, void* reserve
 		OP_ParAppendResult res = manager->appendFloat(np);
 		assert(res == OP_ParAppendResult::Success);
 	}
+	
+	// Cohesion Force
+	{
+		OP_NumericParameter	np;
 
-	// // DAT output type
-	// {
-	// 	OP_StringParameter	sp;
+		np.name = "Cohforce";
+		np.label = "Cohesion Force";
+		np.defaultValues[0] = 0.008;
+		np.minSliders[0] = 0.0;
+		np.maxSliders[0] = 1.0;
+		
+		OP_ParAppendResult res = manager->appendFloat(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
+		
+	// Separation Force
+	{
+		OP_NumericParameter	np;
 
-	// 	sp.name = "Outputtype";
-	// 	sp.label = "Output Type";
+		np.name = "Sepforce";
+		np.label = "Separation Force";
+		np.defaultValues[0] = 0.4;
+		np.minSliders[0] = 0.0;
+		np.maxSliders[0] = 1.0;
+		
+		OP_ParAppendResult res = manager->appendFloat(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
+	
+	// Alignment Force
+	{
+		OP_NumericParameter	np;
 
-	// 	sp.defaultValue = "Table";
+		np.name = "Aliforce";
+		np.label = "Alignment Force";
+		np.defaultValues[0] = 0.06;
+		np.minSliders[0] = 0.0;
+		np.maxSliders[0] = 1.0;
+		
+		OP_ParAppendResult res = manager->appendFloat(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
+		
+	// Boundary Force
+	{
+		OP_NumericParameter	np;
 
-	// 	const char *names[] = {"Table", "Text"};
-	// 	const char *labels[] = {"Table", "Text"};
+		np.name = "Bdrforce";
+		np.label = "Boundary Force";
+		np.defaultValues[0] = 0.06;
+		np.minSliders[0] = 0.0;
+		np.maxSliders[0] = 1.0;
+		
+		OP_ParAppendResult res = manager->appendFloat(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
+		
+	// Cohesion Distance
+	{
+		OP_NumericParameter	np;
 
-	// 	OP_ParAppendResult res = manager->appendMenu(sp, 2, names, labels);
-	// 	assert(res == OP_ParAppendResult::Success);
-	// }
+		np.name = "Cohdist";
+		np.label = "Cohesion Distance";
+		np.defaultValues[0] = 0.5;
+		np.minSliders[0] = 0.0;
+		np.maxSliders[0] = 1.0;
+		
+		OP_ParAppendResult res = manager->appendFloat(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
+		
+	// Separation Distance
+	{
+		OP_NumericParameter	np;
+
+		np.name = "Sepdist";
+		np.label = "Separation Distance";
+		np.defaultValues[0] = 0.05;
+		np.minSliders[0] = 0.0;
+		np.maxSliders[0] = 1.0;
+		
+		OP_ParAppendResult res = manager->appendFloat(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
+			
+	// Alignment Distance
+	{
+		OP_NumericParameter	np;
+
+		np.name = "Alidist";
+		np.label = "Alignmnet Distance";
+		np.defaultValues[0] = 0.1;
+		np.minSliders[0] = 0.0;
+		np.maxSliders[0] = 1.0;
+		
+		OP_ParAppendResult res = manager->appendFloat(np);
+		assert(res == OP_ParAppendResult::Success);
+	}
 
 	// pulse
 	{
@@ -627,7 +595,6 @@ CPlusPlusDATExample::setupParameters(OP_ParameterManager* manager, void* reserve
 		OP_ParAppendResult res = manager->appendPulse(np);
 		assert(res == OP_ParAppendResult::Success);
 	}
-
 }
 
 void
